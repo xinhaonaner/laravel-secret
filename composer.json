@@ -1,0 +1,17 @@
+{
+    "name": "xinhaonaner/laravel-secret",
+    "description": "Adds API SECRET in your Laravel application",
+    "keywords": ["laravel", "secret", "encrypt", "api"],
+    "authors": [
+        {
+            "name": "Xinhaonaner",
+            "email": "Fzhengpei@gamil.com"
+        }
+    ],
+    "require": {
+      "php": ">=7.0.0",
+      "illuminate/support": "5.3.x|5.4.x|5.5.x",
+      "symfony/http-foundation": "~3.1",
+      "symfony/http-kernel": "~3.1"
+    }
+}
