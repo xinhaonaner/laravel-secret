@@ -4,6 +4,7 @@ namespace Xinhaonaner\Secret;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Xinhaonaner\Secret\Exceptions\InvalidConfigException;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -15,8 +16,10 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         if ($this->isLumen()) {
-            //$this->app->middleware([HandlePreflight::class]);
+            $this->app->middleware([HandleCheck::class]);
         } else {
+            //$this->generateKey();
+
             $this->publishes([$this->configPath() => config_path('api-secret.php')]);
 
             /** @var \Illuminate\Foundation\Http\Kernel $kernel */
@@ -53,5 +56,21 @@ class ServiceProvider extends BaseServiceProvider
     protected function isLumen()
     {
         return str_contains($this->app->version(), 'Lumen');
+    }
+
+    protected function generateKey()
+    {
+        $config        = config('api-secret');
+        $config['key'] = sha1(md5(mt_rand(10000, 99999)));
+
+        $path = $this->configPath();
+
+        $save_text = "<?php return " . var_export($config, true) . ";";
+
+        if (fopen($path, 'w')) {
+            file_put_contents($path, $save_text);
+        } else {
+            throw new InvalidConfigException('没有权限');
+        }
     }
 }

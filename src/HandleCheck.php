@@ -44,7 +44,7 @@ class HandleCheck
      */
     public function check()
     {
-        if (request()->isMethod('get')) {
+        if ( !$this->apiSecret['open'] || request()->isMethod('get')) {
             return true;
         }
 

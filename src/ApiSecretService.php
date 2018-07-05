@@ -25,6 +25,7 @@ class ApiSecretService
     private function normalizeOptions(array $options = array())
     {
         return [
+            'open'          => $options['open'],
             'validate_time' => $options['validate_time'],
             'key'           => $options['key'],
         ];
